@@ -1,9 +1,11 @@
 import numpy as np
 import tensorflow as tf
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 def load_mnist_model():
