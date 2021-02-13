@@ -21,6 +21,11 @@ def predict_image(image, model):
     return np.argmax(predict)
 
 
+@app.route('/')
+def index():
+    return 'index'
+
+
 @app.route('/mnist/api/v1.0/model', methods=['POST'])
 def evaluate_model():
     json = request.get_json()
