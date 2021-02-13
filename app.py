@@ -27,7 +27,7 @@ def index():
 
 
 @app.route('/mnist/api/v1.0/test', methods=['POST'])
-def index():
+def test():
     return jsonify({'test': 'ok'})
 
 
