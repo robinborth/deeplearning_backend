@@ -37,8 +37,7 @@ def evaluate_model():
     image = convert_json_to_numpy_array(json)
     model = load_mnist_model()
     prediction = predict_image(image, model)
-    print(prediction)
-    return jsonify(int(prediction))
+    return jsonify({'prediction': int(prediction)})
 
 
 if __name__ == '__main__':
