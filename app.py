@@ -11,7 +11,7 @@ def load_mnist_model():
 
 
 def convert_json_to_numpy_array(json):
-    image = np.array(json['image'])
+    image = np.array(json)
     image = image.reshape(-1, 28, 28, 1)
     return image
 
@@ -34,10 +34,15 @@ def test():
 @app.route('/mnist/api/v1.0/model', methods=['POST'])
 def evaluate_model():
     json = request.get_json()
-    image = convert_json_to_numpy_array(json)
-    model = load_mnist_model()
-    prediction = predict_image(image, model)
-    return jsonify({'prediction': int(prediction)})
+    image_json = json.get('image')
+    print(image_json)
+    if image_json:
+        image = convert_json_to_numpy_array(image_json)
+        model = load_mnist_model()
+        prediction = predict_image(image, model)
+        return jsonify({'prediction': int(prediction)})
+    else:
+        return jsonify({'error': 'error'})
 
 
 if __name__ == '__main__':
