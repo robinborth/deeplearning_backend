@@ -8,6 +8,12 @@ app = Flask(__name__)
 CORS(app)
 
 
+# api request to prevent heroku to sleep
+@app.route('/mnist/api/v1.0/status', methods=['POST'])
+def status():
+    return jsonify({'status': 'ok'})
+
+
 def load_mnist_model():
     return tf.keras.models.load_model('saved_model/mnist_model')
 
@@ -23,21 +29,11 @@ def predict_image(image, model):
     return np.argmax(predict)
 
 
-@app.route('/')
-def index():
-    return 'index'
-
-
-@app.route('/mnist/api/v1.0/test', methods=['POST'])
-def test():
-    return jsonify({'test': 'ok'})
-
-
+# returns the prediction of the drawn digit
 @app.route('/mnist/api/v1.0/model', methods=['POST'])
 def evaluate_model():
     json = request.get_json()
     image_json = json.get('image')
-    print(image_json)
     if image_json:
         image = convert_json_to_numpy_array(image_json)
         model = load_mnist_model()
@@ -48,4 +44,4 @@ def evaluate_model():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
